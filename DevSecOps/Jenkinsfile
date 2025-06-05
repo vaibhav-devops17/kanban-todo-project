@@ -1,0 +1,64 @@
+
+pipeline {
+    
+    agent any
+    environment{
+        SONAR_HOME = tool "Sonar-Scaner"
+    }
+    stages {
+        
+        stage("Code"){
+            steps{
+                git url: "https://github.com/vaibhav-sarode17/node-todo-project.git" , branch: "master"
+                echo "Repository Code Cloned Successfully"
+            }
+        }
+        stage("SonarQube Analysis"){
+            steps{
+               withSonarQubeEnv("Sonar-Scaner"){
+                   sh "$SONAR_HOME/bin/sonar-scanner -Dsonar.projectName=nodetodo -Dsonar.projectKey=nodetodo -X"
+               }
+            }
+        }
+        stage("SonarQube Quality Gates"){
+            steps{
+               timeout(time: 1, unit: "MINUTES"){
+                   waitForQualityGate abortPipeline: false
+               }
+            }
+        }
+        stage("OWASP"){
+            steps{
+                dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'OWASP'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage("Build & Test"){
+            steps{
+                sh 'docker build -t my-project-app:latest .'
+                echo "Code Built Successfully"
+            }
+        }
+        stage("Trivy"){
+            steps{
+                sh "trivy image my-project-app"
+            }
+        }
+        stage("Push to Private Docker Hub Repo"){
+            steps{
+                withCredentials([usernamePassword(credentialsId:"DockerHubCreds",usernameVariable:"DockerUser",passwordVariable:"DockerPass")]){
+                sh "docker login -u ${env.DockerUser} -p ${env.DockerPass}"
+                sh "docker tag my-project-app:latest ${env.DockerUser}/my-project-app:latest"
+                sh "docker push ${env.DockerUser}/my-project-app:latest"
+                }
+                
+            }
+        }
+        stage("Deploy"){
+            steps{
+                sh "docker-compose down && docker-compose up -d"
+                echo "App Deployed Successfully"
+            }
+        }
+    }
+}
