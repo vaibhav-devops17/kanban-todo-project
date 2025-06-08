@@ -29,7 +29,7 @@
 ```
 
 - Trivy installed <br>
-    - Reference: <b> <a href="https://github.com/DevMadhup/Trivy_Installation_and_implementation/blob/main/README.md"><u>Trivy Installation</a></u></b>
+    - Reference: <b> <a href="https://trivy.dev/v0.41/getting-started/installation/"><u>Trivy Installation</a></u></b>
 
 - SonarQube Server installed
 ```bash
