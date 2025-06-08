@@ -83,7 +83,7 @@
 
 5) Now, It's time to integrate SonarQube Server with Jenkins, go to <b><i><u> Manage Jenkins </u></i></b>, then <b><i><u> System </u></i></b> and look for <b><i><u> SonarQube Servers </u></i></b> and add SonarQube.
 
-![image](https://github.com/DevMadhup/node-todo-cicd/assets/121779953/54849cb2-fe56-4acd-972d-3057a0eb3deb)
+![image](https://github.com/user-attachments/assets/c808d4e8-49cd-4ee9-9e4b-0619949f9b69)
 
 #
 
@@ -91,19 +91,22 @@
 
 > Note: Add name as ```Sonar-Scaner```
 
-![image](https://github.com/DevMadhup/node-todo-cicd/assets/121779953/1fe926f6-a844-42d4-bce4-62193dde6640)
+![image](https://github.com/user-attachments/assets/68df9c2a-7be3-4519-95a4-7eeb93456657)
+
 
 7) Integrate OWASP with Jenkins, go to <b><i><u> Manage Jenkins </u></i></b>, then <b><i> tools </i></b>, look for <b><i><u>Dependency-Check installations</u></i></b> and add Dependency-Check.
 
 > Note: Add name as ```OWASP-DC```
 
-![image](https://github.com/DevMadhup/node-todo-cicd/assets/121779953/14516995-0c96-4110-bb96-97a37a9fe57d)
+![image](https://github.com/user-attachments/assets/aab72834-e613-4915-af7b-81423eac88a4)
+
 
 #
 
 8) For trivy, we have already installed it, in pre-reuisites.
 
-![image](https://github.com/DevMadhup/node-todo-cicd/assets/121779953/0fcd1620-bd64-4286-bc13-f6652d4527c6)
+![image](https://github.com/user-attachments/assets/9334af9d-1684-4ac2-915c-f33033bc7ef2)
+
 
 #
 
