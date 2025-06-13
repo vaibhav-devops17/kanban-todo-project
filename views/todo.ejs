@@ -3,54 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Todo List App</title>
+  <title>Kanban Todo List</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
       background-color: #f8f9fa;
     }
+    .kanban-column {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 300px;
+    }
     .todo-item {
-      background-color: #fff;
-      border: 1px solid #dee2e6;
+      background-color: #f1f1f1;
       border-radius: 6px;
-      padding: 15px 20px;
+      padding: 10px 15px;
       margin-bottom: 10px;
-      position: relative;
     }
     .todo-actions {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    .todo-actions a {
-      margin-left: 10px;
+      margin-top: 5px;
     }
   </style>
 </head>
 
 <body>
   <div class="container my-5">
-    <h1 class="text-center text-white bg-success p-3 rounded">📝 My Tasks / Plans</h1>
+    <h1 class="text-center bg-primary text-white p-3 rounded">📝 Kanban Task Board</h1>
 
-    <div class="mt-4">
-      <% todolist.forEach(function(todo, index) { %>
-        <div class="todo-item">
-          <%= todo %>
-          <div class="todo-actions">
-            <a href="/todo/<%= index %>" class="btn btn-warning btn-sm">✎ Edit</a>
-            <a href="/todo/delete/<%= index %>" class="btn btn-danger btn-sm">✘ Delete</a>
-          </div>
+    <% const tasks = todolist || []; %>
+
+    <div class="row mt-4 g-4">
+      <!-- To Do Column -->
+      <div class="col-md-4">
+        <h4 class="text-center text-secondary">To Do</h4>
+        <div class="kanban-column">
+          <% tasks.forEach((task, index) => { if (task.status === 'todo') { %>
+            <div class="todo-item">
+              <%= task.text %>
+              <div class="todo-actions">
+                <form action="/todo/update-status/<%= index %>" method="post" class="d-inline">
+                  <input type="hidden" name="status" value="inprogress" />
+                  <button class="btn btn-sm btn-info">➡ In Progress</button>
+                </form>
+                <a href="/todo/<%= index %>" class="btn btn-sm btn-warning">✎ Edit</a>
+                <a href="/todo/delete/<%= index %>" class="btn btn-sm btn-danger">✘ Delete</a>
+              </div>
+            </div>
+          <% } }) %>
         </div>
-      <% }); %>
+      </div>
+
+      <!-- In Progress Column -->
+      <div class="col-md-4">
+        <h4 class="text-center text-warning">In Progress</h4>
+        <div class="kanban-column">
+          <% tasks.forEach((task, index) => { if (task.status === 'inprogress') { %>
+            <div class="todo-item">
+              <%= task.text %>
+              <div class="todo-actions">
+                <form action="/todo/update-status/<%= index %>" method="post" class="d-inline">
+                  <input type="hidden" name="status" value="done" />
+                  <button class="btn btn-sm btn-success">✅ Done</button>
+                </form>
+                <a href="/todo/<%= index %>" class="btn btn-sm btn-warning">✎ Edit</a>
+                <a href="/todo/delete/<%= index %>" class="btn btn-sm btn-danger">✘ Delete</a>
+              </div>
+            </div>
+          <% } }) %>
+        </div>
+      </div>
+
+      <!-- Done Column -->
+      <div class="col-md-4">
+        <h4 class="text-center text-success">Done</h4>
+        <div class="kanban-column">
+          <% tasks.forEach((task, index) => { if (task.status === 'done') { %>
+            <div class="todo-item">
+              <%= task.text %>
+              <div class="todo-actions">
+                <a href="/todo/delete/<%= index %>" class="btn btn-sm btn-danger">✘ Delete</a>
+              </div>
+            </div>
+          <% } }) %>
+        </div>
+      </div>
     </div>
 
-    <form action="/todo/add/" method="post" class="mt-4 p-4 bg-white shadow rounded">
+    <!-- Add New Task Form -->
+    <form action="/todo/add" method="post" class="mt-5 p-4 bg-white shadow rounded">
       <div class="mb-3">
         <label for="newtodo" class="form-label">Add a new task:</label>
         <input type="text" name="newtodo" id="newtodo" class="form-control" placeholder="e.g. Buy groceries" autofocus required />
       </div>
-      <button type="submit" class="btn btn-success">Add Task</button>
+      <button type="submit" class="btn btn-primary">Add Task</button>
     </form>
   </div>
 </body>
