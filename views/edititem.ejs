@@ -1,28 +1,21 @@
 <!DOCTYPE html>
-
-<html>
-
-    <head>
-        <title>Edit <%- todo %></title>
-        <style>
-            a {
-                text-decoration: none;
-                color: black;
-            }
-
-        </style>
-    </head>
-
-    <body>
-        <h1>Edit <%- todo %>:</h1>
-        <form action="/todo/edit/<%= todoIdx %>" method="post">
-            <p>
-                <label for="editTodo">Change to:</label>
-                <input type="hidden" name="_method" value="PUT">
-                <input type="text" name="editTodo" id="editTodo" autofocus placeholder="<%- todo %>" />
-                <input type="submit" value="Save" />
-            </p>
-        </form>
-    </body>
-
+<html lang="en">
+<head>
+  <title>Edit Todo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container my-5">
+    <h2 class="mb-4">✏️ Edit Task</h2>
+    <form action="/todo/edit/<%= todoIdx %>" method="post" class="p-4 bg-white shadow rounded">
+      <input type="hidden" name="_method" value="PUT">
+      <div class="mb-3">
+        <label for="editTodo" class="form-label">Update your task:</label>
+        <input type="text" name="editTodo" id="editTodo" class="form-control" value="<%- todo %>" autofocus required />
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="/todo" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+  </div>
+</body>
 </html>
