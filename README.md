@@ -1,4 +1,4 @@
-# node-todo-cicd
+# kanban-todo-cicd
 
 Run these commands:
 
