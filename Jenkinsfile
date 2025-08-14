@@ -5,7 +5,7 @@ pipeline{
         stage("Code Clone"){
             steps{
                 echo "Code Clone Stage"
-                git url: "https://github.com/vaibhav-sarode17/node-todo-project.git", branch: "master"
+                git url: "https://github.com/vaibhav-devops17/kanban-todo-project.git", branch: "master"
             }
         }
         stage("Code Build & Test"){
