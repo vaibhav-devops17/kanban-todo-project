@@ -11,7 +11,7 @@ pipeline{
         stage("Code Build & Test"){
             steps{
                 echo "Code Build Stage"
-                sh "docker build -t node-app ."
+                sh "docker build -t kanban-todo-node-app ."
             }
         }
         stage("Push To DockerHub"){
@@ -21,8 +21,8 @@ pipeline{
                     usernameVariable:"DockerHubUser", 
                     passwordVariable:"DockerHubPass")]){
                 sh 'echo $DockerHubPass | docker login -u $DockerHubUser --password-stdin'
-                sh "docker image tag node-app:latest ${env.DockerHubUser}/node-app:latest"
-                sh "docker push ${env.DockerHubUser}/node-app:latest"
+                sh "docker image tag kanban-todo-node-app:latest ${env.DockerHubUser}/kanban-todo-node-app:latest"
+                sh "docker push ${env.DockerHubUser}/kanban-todo-node-app:latest"
                 }
             }
         }
