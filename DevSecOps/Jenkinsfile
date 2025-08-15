@@ -1,7 +1,7 @@
 
 pipeline {
     
-    agent any
+    agent { label 'node-1' }
     environment{
         SONAR_HOME = tool "Sonar-Scaner"
     }
@@ -9,14 +9,14 @@ pipeline {
         
         stage("Code"){
             steps{
-                git url: "https://github.com/vaibhav-sarode17/node-todo-project.git" , branch: "master"
+                git url: "https://github.com/vaibhav-devops17/kanban-todo-project.git" , branch: "master"
                 echo "Repository Code Cloned Successfully"
             }
         }
         stage("SonarQube Analysis"){
             steps{
                withSonarQubeEnv("Sonar-Scaner"){
-                   sh "$SONAR_HOME/bin/sonar-scanner -Dsonar.projectName=nodetodo -Dsonar.projectKey=nodetodo -X"
+                   sh "$SONAR_HOME/bin/sonar-scanner -Dsonar.projectName=kanban-todo -Dsonar.projectKey=kanban-todo -X"
                }
             }
         }
@@ -35,21 +35,21 @@ pipeline {
         }
         stage("Build & Test"){
             steps{
-                sh 'docker build -t my-project-app:latest .'
+                sh 'docker build -t kanban-todo-app:latest .'
                 echo "Code Built Successfully"
             }
         }
         stage("Trivy"){
             steps{
-                sh "trivy image my-project-app"
+                sh "trivy image kanban-todo-app"
             }
         }
         stage("Push to Private Docker Hub Repo"){
             steps{
                 withCredentials([usernamePassword(credentialsId:"DockerHubCreds",usernameVariable:"DockerUser",passwordVariable:"DockerPass")]){
                 sh "docker login -u ${env.DockerUser} -p ${env.DockerPass}"
-                sh "docker tag my-project-app:latest ${env.DockerUser}/my-project-app:latest"
-                sh "docker push ${env.DockerUser}/my-project-app:latest"
+                sh "docker tag kanban-todo-app:latest ${env.DockerUser}/kanban-todo-app:latest"
+                sh "docker push ${env.DockerUser}/kanban-todo-app:latest"
                 }
                 
             }
