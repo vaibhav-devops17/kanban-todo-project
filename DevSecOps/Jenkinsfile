@@ -1,7 +1,7 @@
 
 pipeline {
     
-    agent { label 'node-1' }
+    agent { label 'local-ubuntu' }
     environment{
         SONAR_HOME = tool "Sonar-Scaner"
     }
