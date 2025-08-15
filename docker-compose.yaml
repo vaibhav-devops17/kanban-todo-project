@@ -2,6 +2,6 @@ version: '3.9'
 
 services:
   web:
-    image: vaibhav-devops17/kanban-todo-node-app:latest
+    image: vsarode000/kanban-todo-node-app:latest
     ports:
       - "8000:8000"
