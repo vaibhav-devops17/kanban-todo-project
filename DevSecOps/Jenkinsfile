@@ -27,14 +27,14 @@ pipeline {
                }
             }
         }
-        /*
-        stage("OWASP"){
-            steps{
+        
+        //stage("OWASP"){
+            //steps{
                 //dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'OWASP'
                 //dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
-        */
+            //}
+        //}
+        
         stage("Build & Test"){
             steps{
                 sh 'docker build -t kanban-todo-app:latest .'
